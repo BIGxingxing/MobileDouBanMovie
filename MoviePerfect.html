@@ -161,14 +161,25 @@
 				this.isLoading = false
 				this.index = 0
 				this.isFinish = false
-				this.bind()
+				
 				this.start()
+				this.bind()
+				
 			},
 			bind: function(){
+				var clock
 				var _this = this
-				this.$element.scroll(function(){
+				_this.$element.scroll(function(){
+					if(clock){
+						clearTimeout
+					}
+					clock = setTimeout(function(){
+						if(!_this.isFinish && _this.$element.find('.container').height() <=
+				_this.$element.height() + _this.$element.scrollTop() + 10){
+						_this.start() 
+					}
+					},300)
 					
-					_this.start() 
 					 //绑定事件
 				})
 			},
@@ -198,7 +209,7 @@
 					if(_this.index >= ret.total){
 						_this.isFinish = true
 					}
-					callback&&callback(ret)
+					callback(ret)
 					
 				}).fail(function(){
 					console.log('error ...')
